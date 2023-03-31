@@ -19,7 +19,7 @@ Devise.setup do |config|
   # Azure authentication
   config.omniauth :azure_activedirectory_v2,
                   client_id: ENV['AZURE_CLIENT_ID_ZBLOG'],                                                              
-                  client_secret: ENV['AZURE_CLIENT_SECRET_ZBLOG'],                                                         
+                  client_secret: ENV['AZURE_CLIENT_SECRET_VALUE_ZBLOG'],                                                         
                   tenant_id: ENV['AZURE_TENANT_ID_ZBLOG']
 
   # ==> Controller configuration
