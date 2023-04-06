@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     }
   
     resources :users
+    resources :patients
 
   get 'welcome/index'
   # Defines the root path route ("/")

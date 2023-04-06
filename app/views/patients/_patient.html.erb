@@ -1,0 +1,19 @@
+<div id="<%= dom_id patient %>">
+  <p>
+    <strong>First name:</strong>
+    <%= patient.first_name %>
+  </p>
+
+  <p>
+    <strong>Last name:</strong>
+    <%= patient.last_name %>
+  </p>
+
+  <p>
+    <strong>Documents:</strong>
+    <% patient.documents.each do |document| %>
+      <div><%= link_to document.filename, document, target: :_blank %></div>
+    <% end %>
+  </p>
+
+</div>
