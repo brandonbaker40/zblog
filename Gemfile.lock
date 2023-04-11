@@ -120,6 +120,9 @@ GEM
     globalid (1.1.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.1.5)
@@ -280,6 +283,7 @@ DEPENDENCIES
   debug
   devise
   figaro
+  httparty
   importmap-rails
   jbuilder
   omniauth-azure-activedirectory-v2
