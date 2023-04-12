@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   
     resources :users
     resources :patients
-    resources :visits
+    
+    resources :visits do
+      collection do
+        post :import
+      end
+    end
 
   get 'welcome/index'
   # Defines the root path route ("/")
