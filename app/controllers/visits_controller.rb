@@ -1,6 +1,5 @@
 class VisitsController < ApplicationController
   require 'csv'
-  require 'stringio'
 
   before_action :set_visit, only: %i[ show edit update destroy ]
 
@@ -76,12 +75,14 @@ class VisitsController < ApplicationController
         patient = Patient.find_by(last_name: patient_hash[:last_name], first_name: patient_hash[:first_name])
   
         visit_hash = {}
-        date_split = row["Date of Service"].split("/")
-        visit_hash[:date_of_service] = Date.parse(("20" + date_split[2]) + '-' + date_split[0] + '-' + date_split[1]) # 1) examples, 4/1/22; 12/19/22; 1/2/23; 2) no dates before year 2000 allowed
-  
         visit_hash[:patient] = patient
-        Visit.create(visit_hash)
+        visit_hash[:webptvisitid] = row["Visit ID"]
 
+        date_split = row["Date of Service"].split("/")
+        visit_hash[:date_of_service] = Date.parse((date_split[2]) + '-' + date_split[0] + '-' + date_split[1])
+        # CSV examples: 4/1/22 12/19/22 1/2/23
+  
+        Visit.create(visit_hash)
       end
     end
 
