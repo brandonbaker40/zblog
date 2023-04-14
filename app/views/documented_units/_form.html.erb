@@ -1,0 +1,32 @@
+<%= form_with(model: documented_unit) do |form| %>
+  <% if documented_unit.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(documented_unit.errors.count, "error") %> prohibited this documented_unit from being saved:</h2>
+
+      <ul>
+        <% documented_unit.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :code_id, style: "display: block" %>
+    <%= form.text_field :code_id %>
+  </div>
+
+  <div>
+    <%= form.label :visit_id, style: "display: block" %>
+    <%= form.text_field :visit_id %>
+  </div>
+
+  <div>
+    <%= form.label :unit_count, style: "display: block" %>
+    <%= form.number_field :unit_count %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

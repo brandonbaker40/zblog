@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
 
+
   devise_for :users, 
     controllers: {                                 
       sessions:           'users/sessions',                                                                             
@@ -10,6 +11,8 @@ Rails.application.routes.draw do
   
     resources :users
     resources :patients
+    resources :documented_units
+    resources :codes
     
     resources :visits do
       collection do

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: one
+  visit: one
+  unit_count: 1
+
+two:
+  code: two
+  visit: two
+  unit_count: 1

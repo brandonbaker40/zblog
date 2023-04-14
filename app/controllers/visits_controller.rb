@@ -82,7 +82,22 @@ class VisitsController < ApplicationController
         visit_hash[:date_of_service] = Date.parse((date_split[2]) + '-' + date_split[0] + '-' + date_split[1])
         # CSV examples: 4/1/22 12/19/22 1/2/23
   
-        Visit.create(visit_hash)
+        new_visit = Visit.create(visit_hash) 
+        visit = Visit.find_by(visit_hash)
+
+        
+        code_hash = {} 
+        code_hash[:label] = row["CPT Code"]
+        new_code = Code.create(code_hash)
+        code = Code.find_by(label: code_hash[:label])
+
+        documented_unit_hash = {} 
+        documented_unit_hash[:visit] = visit 
+        documented_unit_hash[:code] = code 
+        documented_unit_hash[:unit_count] = row["Units"]
+        new_documented_unit = DocumentedUnit.create(documented_unit_hash)
+        documented_unit = DocumentedUnit.find_by(visit: documented_unit_hash[:visit], code: documented_unit_hash[:code], unit_count: documented_unit_hash[:unit_count])
+
       end
     end
 
@@ -97,6 +112,6 @@ class VisitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def visit_params
-      params.require(:visit).permit(:date_of_service, :patient_id)
+      params.require(:visit).permit(:date_of_service, :patient_id, :billed_code_ids => [])
     end
 end
