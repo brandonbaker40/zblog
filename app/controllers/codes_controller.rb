@@ -65,6 +65,6 @@ class CodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def code_params
-      params.require(:code).permit(:label, :billed_visit_ids => [])
+      params.require(:code).permit(:label])
     end
 end

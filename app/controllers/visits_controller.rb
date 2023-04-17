@@ -112,6 +112,6 @@ class VisitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def visit_params
-      params.require(:visit).permit(:date_of_service, :patient_id, :billed_code_ids => [])
+      params.require(:visit).permit(:date_of_service, :patient_id)
     end
 end
