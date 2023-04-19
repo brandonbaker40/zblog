@@ -3,7 +3,7 @@
 <p>Patient ID: <%= @visit.patient_id %> </p>
 <p>Patient: <%= patient_full_name(@visit.patient) %> </p>
 <p> DOS: <%= @visit.date_of_service %> </p>
-<p> Codes: <%= @visit.billed_codes.pluck(:label, :unit_count) %> </p>
+<p> Codes: <%= @visit.applied_codes.pluck(:label, :unit_count) %> </p>
 
 
 <div>
