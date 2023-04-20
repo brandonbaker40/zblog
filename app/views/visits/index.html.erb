@@ -1,0 +1,18 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Visits</h1>
+
+<%= form_with url: import_visits_path, method: :post do |form| %>
+  <%= form.file_field :file, accept: ".csv" %>
+  <%= form.button "Import" %>
+<% end %>
+
+<div id="visits">
+  <% @visits.each do |visit| %>
+    <p>
+      <%= link_to "#{patient_full_name(visit.patient)} on #{visit.date_of_service.strftime("%m/%d/%Y")}", visit %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New visit", new_visit_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_06_201745) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_20_005743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,47 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_201745) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "codes_visits", id: false, force: :cascade do |t|
+    t.bigint "code_id", null: false
+    t.bigint "visit_id", null: false
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "documented_units", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "code_id", null: false
+    t.uuid "visit_id", null: false
+    t.integer "unit_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code_id"], name: "index_documented_units_on_code_id"
+    t.index ["visit_id"], name: "index_documented_units_on_visit_id"
+  end
+
+  create_table "imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "patients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -61,6 +102,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_201745) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "visits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.date "date_of_service"
+    t.uuid "patient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "webptvisitid"
+    t.index ["patient_id"], name: "index_visits_on_patient_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "documented_units", "codes"
+  add_foreign_key "documented_units", "visits"
+  add_foreign_key "visits", "patients"
 end

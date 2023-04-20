@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<p>Patient ID: <%= @visit.patient_id %> </p>
+<p>Patient: <%= patient_full_name(@visit.patient) %> </p>
+<p> DOS: <%= @visit.date_of_service %> </p>
+<p> Codes: <%= @visit.applied_codes.pluck(:label, :unit_count) %> </p>
+
+
+<div>
+  <%= link_to "Edit this visit", edit_visit_path(@visit) %> |
+  <%= link_to "Back to visits", visits_path %>
+
+  <%= button_to "Destroy this visit", @visit, method: :delete %>
+</div>
