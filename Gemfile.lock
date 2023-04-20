@@ -112,6 +112,11 @@ GEM
     debug (1.7.2)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    delayed_job (4.1.11)
+      activesupport (>= 3.0, < 8.0)
+    delayed_job_active_record (4.1.7)
+      activerecord (>= 3.0, < 8.0)
+      delayed_job (>= 3.0, < 5)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.9.0)
@@ -298,6 +303,7 @@ DEPENDENCIES
   capybara
   csv-importer
   debug
+  delayed_job_active_record
   devise
   figaro
   httparty

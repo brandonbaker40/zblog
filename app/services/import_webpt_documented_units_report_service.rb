@@ -12,6 +12,7 @@ class ImportWebptDocumentedUnitsReportService
     # liberal_parsing is set to true to ignore non UTF-8 characters like BOM
     # headers == TRUE because it's useful
     # header_converters converted to symbol is necessary to remove the BOM from the keys when the row is converted to a hash
+    # handle_asynchronously :call below this method delegates this method to a background worker
       CSV.parse(URI.open(@file), liberal_parsing: true, headers: true, header_converters: :symbol).each do |row|
         row = row.to_h
 
@@ -46,5 +47,6 @@ class ImportWebptDocumentedUnitsReportService
       end
 
     end
+    handle_asynchronously :call
 
 end

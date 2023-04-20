@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_18_154826) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_20_005743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_154826) do
   create_table "codes_visits", id: false, force: :cascade do |t|
     t.bigint "code_id", null: false
     t.bigint "visit_id", null: false
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "documented_units", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
