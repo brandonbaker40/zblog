@@ -2,13 +2,39 @@
 
 <h1>Patients</h1>
 
-<div id="patients">
-  <% @patients.each do |patient| %>
-    <%= render patient %>
-    <p>
-      <%= link_to "Show this patient", patient %>
-    </p>
-  <% end %>
+<%= link_to "New patient", new_patient_path %>
+
+<%= search_form_for @q do |f| %>
+  <div>
+    <%= f.label :last_name_cont %>
+    <%= f.search_field :last_name_cont %>
+  </div>
+
+  <div>
+    <%= f.label :first_name_cont %>
+    <%= f.search_field :first_name_cont %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th><%= sort_link(@q, :last_name) %></th>
+        <th><%= sort_link(@q, :first_name) %></th>
+        <th>Documents</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @patients %>
+    </tbody>
+  </table>
 </div>
 
-<%= link_to "New patient", new_patient_path %>
+<%= raw pagy_nav(@pagy) %>

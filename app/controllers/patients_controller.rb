@@ -1,10 +1,15 @@
 class PatientsController < ApplicationController
+  include Pagy::Backend
 
   before_action :set_patient, only: %i[ show edit update destroy ]
 
   # GET /patients or /patients.json
   def index
-    @patients = Patient.all
+    # @patients = Patient.all
+    @q = Patient.ransack(params[:q])
+    @patients = @q.result(distinct: true)
+    # scope =
+    @pagy, @patients = pagy(@patients, items: 10)
   end
 
   # GET /patients/1 or /patients/1.json
