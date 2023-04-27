@@ -25,10 +25,10 @@
     <%= form.label :sex, style: "display: block" %>
     <%= form.select :sex, Patient.sexes.map { |key, value| [key.humanize, key] }, :include_blank => true %>
   </div>
+
+  <div>
     <%= form.label :date_of_birth, style: "display: block" %>
     <%= form.date_field :birthdate %>
-  <div>
-
   </div>
 
   <div>
