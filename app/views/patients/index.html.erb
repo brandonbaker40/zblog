@@ -4,15 +4,15 @@
 
 <%= link_to "New patient", new_patient_path %>
 
-<%= search_form_for @q do |f| %>
+<%= search_form_for @q, html: {"data-controller": "filters", "data-turbo-frame": "table"} do |f| %>
   <div>
-    <%= f.label :last_name_cont %>
-    <%= f.search_field :last_name_cont %>
+    <%= f.label :last_name_start %>
+    <%= f.search_field :last_name_start, "data-action": "filters#submit" %>
   </div>
 
   <div>
-    <%= f.label :first_name_cont %>
-    <%= f.search_field :first_name_cont %>
+    <%= f.label :first_name_start %>
+    <%= f.search_field :first_name_start, "data-action": "filters#submit" %>
   </div>
 
   <div>
@@ -20,15 +20,15 @@
   </div>
 <% end %>
 
-
+<%= turbo_frame_tag "table", target: '_top' do %>
 <div class="table-container">
   <table>
     <thead>
       <tr>
-        <th><%= sort_link(@q, :last_name) %></th>
-        <th><%= sort_link(@q, :first_name) %></th>
+        <th>Last</th>
+        <th>First</th>
         <th>Documents</th>
-        <th> </th>
+        <th>View Patient</th>
       </tr>
     </thead>
     <tbody>
@@ -38,3 +38,4 @@
 </div>
 
 <%= raw pagy_nav(@pagy) %>
+<% end %>

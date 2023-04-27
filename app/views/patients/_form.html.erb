@@ -22,6 +22,16 @@
   </div>
 
   <div>
+    <%= form.label :sex, style: "display: block" %>
+    <%= form.select :sex, Patient.sexes.map { |key, value| [key.humanize, key] }, :include_blank => true %>
+  </div>
+    <%= form.label :date_of_birth, style: "display: block" %>
+    <%= form.date_field :birthdate %>
+  <div>
+
+  </div>
+
+  <div>
     <%= form.label :documents, style: "display: block" %>
     <%= form.file_field :documents, multiple: true %>
   </div>
