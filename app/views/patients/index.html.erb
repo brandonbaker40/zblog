@@ -5,16 +5,11 @@
 <%= link_to "New patient", new_patient_path %>
 
 <%= search_form_for @q, html: {"data-controller": "filters", "data-turbo-frame": "table"} do |f| %>
+<br />
   <div>
-    <%= f.label :last_name_start %>
-    <%= f.search_field :last_name_start, "data-action": "filters#submit" %>
+    <%= f.search_field :last_name_start, "data-action": "filters#submit", placeholder: 'Search by last name...' %>
   </div>
-
-  <div>
-    <%= f.label :first_name_start %>
-    <%= f.search_field :first_name_start, "data-action": "filters#submit" %>
-  </div>
-
+  <br />
   <div>
     <%= f.submit %>
   </div>
