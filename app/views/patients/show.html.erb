@@ -3,7 +3,7 @@
 <%# render @patient %>
 
 <div>
-  <h3><strong>Name:</strong> <%= patient_full_name(@patient) %></h3>
+  <h3><strong>Name:</strong> <%= @patient.name %></h3>
   <p><strong>Date of Birth:</strong> <%= @patient.birthdate %></p>
   <p><strong>Sex: <%= @patient.sex ? @patient.sex.first.capitalize : nil %></strong></p>
 </div>

@@ -9,7 +9,7 @@ class PatientsController < ApplicationController
     @q = Patient.ransack(params[:q])
     @patients = @q.result(distinct: true)
     # scope =
-    @pagy, @patients = pagy(@patients, items: 10)
+    @pagy, @patients = pagy(@patients.order("created_at DESC"), items: 10)
   end
 
   # GET /patients/1 or /patients/1.json

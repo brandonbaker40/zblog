@@ -2,35 +2,29 @@
 
 <h1>Patients</h1>
 
-<%= link_to "New patient", new_patient_path %>
+<%= button_to "New patient", new_patient_path %>
 
-<%= search_form_for @q, html: {"data-controller": "filters", "data-turbo-frame": "table"} do |f| %>
-<br />
-  <div>
-    <%= f.search_field :last_name_start, "data-action": "filters#submit", placeholder: 'Search by last name...' %>
-  </div>
+<div>
   <br />
-  <div>
-    <%= f.submit %>
-  </div>
-<% end %>
-
-<%= turbo_frame_tag "table", target: '_top' do %>
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Last</th>
-        <th>First</th>
-        <th>Documents</th>
-        <th>View Patient</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render @patients %>
-    </tbody>
-  </table>
+  <%= search_form_for @q, html: {"data-controller": "filters", "data-turbo-frame": "table"} do |f| %>
+    <div><%= f.search_field :name_cont, "data-action": "filters#submit", placeholder: 'Search by name...' %> <%# f.submit %></div>
+  <% end %>
 </div>
 
-<%= raw pagy_nav(@pagy) %>
+
+<%= turbo_frame_tag "table", target: '_top' do %>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%# render @patients %>
+        <%= render partial: "patients/name_only", collection: @patients, as: :patient %>
+      </tbody>
+    </table>
+  </div>
+  <%= raw pagy_nav(@pagy) %>
 <% end %>

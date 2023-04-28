@@ -1,6 +1,5 @@
 <%= tag.tr id: dom_id(patient) do %>
-  <td><%= patient.last_name %></td>
-  <td><%= patient.first_name %></td>
+  <td><%= patient.name %></td>
   <td>
     <% patient.documents.each do |document| %>
       <div><%= link_to document.filename, document, target: :_blank %></div>
