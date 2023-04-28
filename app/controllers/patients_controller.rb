@@ -1,10 +1,15 @@
 class PatientsController < ApplicationController
+  include Pagy::Backend
 
   before_action :set_patient, only: %i[ show edit update destroy ]
 
   # GET /patients or /patients.json
   def index
-    @patients = Patient.all
+    # @patients = Patient.all
+    @q = Patient.ransack(params[:q])
+    @patients = @q.result(distinct: true)
+    # scope =
+    @pagy, @patients = pagy(@patients.order("created_at DESC"), items: 10)
   end
 
   # GET /patients/1 or /patients/1.json
@@ -66,6 +71,6 @@ class PatientsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def patient_params
-      params.require(:patient).permit(:first_name, :last_name, documents: [])
+      params.require(:patient).permit(:first_name, :last_name, :sex, :birthdate, documents: [])
     end
 end

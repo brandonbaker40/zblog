@@ -1,6 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @patient %>
+<%# render @patient %>
+
+<div>
+  <h3><strong>Name:</strong> <%= @patient.name %></h3>
+  <p><strong>Date of Birth:</strong> <%= @patient.birthdate %></p>
+  <p><strong>Sex: <%= @patient.sex ? @patient.sex.first.capitalize : nil %></strong></p>
+</div>
 
 <div>
   <%= link_to "Edit this patient", edit_patient_path(@patient) %> |

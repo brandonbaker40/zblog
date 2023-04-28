@@ -126,6 +126,8 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.12.0)
+    faker (3.2.0)
+      i18n (>= 1.8.11, < 2)
     faraday (2.7.4)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -199,6 +201,7 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
+    pagy (6.0.3)
     pg (1.4.6)
     public_suffix (5.0.1)
     puma (5.6.5)
@@ -236,6 +239,10 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    ransack (4.0.0)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     regexp_parser (2.7.0)
     reline (0.3.3)
       io-console (~> 0.5)
@@ -305,15 +312,18 @@ DEPENDENCIES
   debug
   delayed_job_active_record
   devise
+  faker
   figaro
   httparty
   importmap-rails
   jbuilder
   omniauth-azure-activedirectory-v2
   omniauth-rails_csrf_protection (~> 1.0)
+  pagy (~> 6.0)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
+  ransack
   selenium-webdriver
   sprockets-rails
   stimulus-rails
