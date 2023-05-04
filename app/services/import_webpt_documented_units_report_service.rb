@@ -1,4 +1,6 @@
 class ImportWebptDocumentedUnitsReportService
+  include CsvHeaderValidator
+
   require 'csv'
   require 'open-uri'
 
@@ -13,36 +15,38 @@ class ImportWebptDocumentedUnitsReportService
     # headers == TRUE because it's useful
     # header_converters converted to symbol is necessary to remove the BOM from the keys when the row is converted to a hash
     # handle_asynchronously :call below this method delegates this method to a background worker
-      CSV.parse(URI.open(@file), liberal_parsing: true, headers: true, header_converters: :symbol).each do |row|
+      CSV.parse(URI.open(@file), liberal_parsing: true, headers: true, header_converters: :symbol).each_with_index do |row, index|
         row = row.to_h
 
+        # break the csv loop and stop the import if the csv headers arent what they should be
+        break if (index == 0 && (row.keys != CsvHeaderValidator::WEBPT_DOCUMENTED_UNITS_REPORT_CSV_HEADERS))
+
+        # considered find_or_create_by and create_or_find_by
         patient_hash = {}
           patient_hash[:last_name] = row[:patient_name].split(',').first
           patient_hash[:first_name] = row[:patient_name].split(',').last.strip
-          new_patient = Patient.create(patient_hash) # uniqueness validation causes this to skip/fail when patient is already in the database
-          patient = Patient.find_by(last_name: patient_hash[:last_name], first_name: patient_hash[:first_name])
+
+          dob_split = row[:patient_dob].split("/")
+            patient_hash[:birthdate] = Date.parse((dob_split[2]) + '-' + dob_split[0] + '-' + dob_split[1])
+          patient = Patient.where(patient_hash).first_or_create
 
         visit_hash = {}
           visit_hash[:patient] = patient
           visit_hash[:webptvisitid] = row[:visit_id]
 
-        date_split = row[:date_of_service].split("/")
-          visit_hash[:date_of_service] = Date.parse((date_split[2]) + '-' + date_split[0] + '-' + date_split[1])
-          # CSV examples: 4/1/22 12/19/22 1/2/23
-          new_visit = Visit.create(visit_hash)
-          visit = Visit.find_by(visit_hash)
+        dos_split = row[:date_of_service].split("/")
+          visit_hash[:date_of_service] = Date.parse((dos_split[2]) + '-' + dos_split[0] + '-' + dos_split[1])
+          visit = Visit.where(visit_hash).first_or_create
 
         code_hash = {}
           code_hash[:label] = row[:cpt_code]
-          new_code = Code.create(code_hash)
-          code = Code.find_by(label: code_hash[:label])
+          code = Code.where(code_hash).first_or_create
 
         documented_unit_hash = {}
           documented_unit_hash[:visit] = visit
           documented_unit_hash[:code] = code
           documented_unit_hash[:unit_count] = row[:units]
-          new_documented_unit = DocumentedUnit.create(documented_unit_hash)
-          documented_unit = DocumentedUnit.find_by(visit: documented_unit_hash[:visit], code: documented_unit_hash[:code], unit_count: documented_unit_hash[:unit_count])
+          documented_unit = DocumentedUnit.where(documented_unit_hash).first_or_create
 
       end
 
