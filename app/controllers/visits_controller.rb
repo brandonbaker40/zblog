@@ -59,7 +59,7 @@ class VisitsController < ApplicationController
     end
   end
 
-  def import 
+  def import
     file = params[:file]
     return redirect_to visits_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
 

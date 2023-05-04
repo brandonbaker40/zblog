@@ -8,6 +8,12 @@ class Patient < ApplicationRecord
 
   validates_uniqueness_of :last_name, :scope => [:first_name] # add Date of Birth when the field is added in a migration
 
+  validates :last_name, presence: true
+  validates :first_name, presence: true
+  validates :birthdate, presence: true
+  # validates :sex, presence: true
+
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "first_name", "last_name", "name", "birthdate", "sex", "created_at", "updated_at"]
   end

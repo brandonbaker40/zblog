@@ -10,7 +10,7 @@
 <div id="visits">
   <% @visits.each do |visit| %>
     <p>
-      <%= link_to "#{patient_full_name(visit.patient)} on #{visit.date_of_service.strftime("%m/%d/%Y")}", visit %>
+      <%= link_to "#{visit.patient.name} on #{visit.date_of_service.strftime("%m/%d/%Y")}", visit %>
     </p>
   <% end %>
 </div>

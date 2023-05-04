@@ -23,7 +23,7 @@
 
   <div>
     <%= form.label :sex, style: "display: block" %>
-    <%= form.select :sex, Patient.sexes.map { |key, value| [key.humanize, key] }, :include_blank => true %>
+    <%= form.select :sex, Patient.sexes.map { |key, value| [key.humanize, key] }, include_blank: true %>
   </div>
 
   <div>

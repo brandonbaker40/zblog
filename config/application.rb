@@ -18,6 +18,11 @@ module Zblog
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # jobs
     config.active_job.queue_adapter = :delayed_job
+
+    # lib modules
+    config.eager_load_paths += %W(#{config.root}/lib/modules)
   end
 end

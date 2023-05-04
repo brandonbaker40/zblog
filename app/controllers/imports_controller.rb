@@ -27,6 +27,7 @@ class ImportsController < ApplicationController
 
     respond_to do |format|
       if @import.save
+
         ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
 
         format.html { redirect_to import_url(@import), notice: "Import was successfully created." }

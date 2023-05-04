@@ -18,7 +18,7 @@
 
   <div>
     <%# form.label :patient_id, style: "display: block" %>
-    <%= form.select(:patient_id, Patient.all.collect { |v| [ patient_full_name(v), v.id ] }, {}, { "data-placeholder": "Select Patient" }) %>
+    <%= form.select(:patient_id, Patient.all.collect { |v| [ patient.name, v.id ] }, {}, { "data-placeholder": "Select Patient" }) %>
   </div>
 
   <div>
