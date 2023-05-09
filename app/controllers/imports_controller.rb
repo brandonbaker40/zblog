@@ -23,12 +23,21 @@ class ImportsController < ApplicationController
   def create
     @import = Import.new(import_params)
     file = import_params[:file]
+    report = import_params[:report]
     return redirect_to imports_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
+
+    # service to check that the headers match the selected report type
+    # if they do not match, return redirect_to imports_path with a notice saying that the report is invalid.
 
     respond_to do |format|
       if @import.save
 
-        ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
+        header_check = CheckCsvHeadersService.new(@import.file.url, report).call
+
+        return redirect_to imports_path, notice: "You did something wrong" unless header_check == true
+
+        binding.b
+        # ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
 
         format.html { redirect_to import_url(@import), notice: "Import was successfully created." }
         format.json { render :show, status: :created, location: @import }
@@ -68,8 +77,17 @@ class ImportsController < ApplicationController
       @import = Import.find(params[:id])
     end
 
+    # def check_headers
+    #   thing = CheckCsvHeadersService.new(@import.file.url, report).call
+    #   if thing
+    #     puts "THIS IS THE THING"
+    #   else
+    #     puts "THIS iS NOT THE THINGS"
+    #   end
+    # end
+
     # Only allow a list of trusted parameters through.
     def import_params
-      params.require(:import).permit(:file)
+      params.require(:import).permit(:file, :report)
     end
 end
