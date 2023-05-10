@@ -21,30 +21,29 @@ class ImportsController < ApplicationController
 
   # POST /imports or /imports.json
   def create
-    @import = Import.new(import_params)
-    file = import_params[:file]
-    report = import_params[:report]
-    return redirect_to imports_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
+    if validate_headers == true # substitution for a callback that checks whether the headers in the file the user is trying to upload match the expected headers by the report type
 
-    # service to check that the headers match the selected report type
-    # if they do not match, return redirect_to imports_path with a notice saying that the report is invalid.
+      @import = Import.new(import_params)
+      file = import_params[:file]
+      report = import_params[:report]
+      return redirect_to imports_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
 
-    respond_to do |format|
-      if @import.save
+      respond_to do |format|
+        if @import.save
 
-        header_check = CheckCsvHeadersService.new(@import.file.url, report).call
+          # upload to file to S3 and import the data
+          ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
 
-        return redirect_to imports_path, notice: "You did something wrong" unless header_check == true
-
-        binding.b
-        # ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
-
-        format.html { redirect_to import_url(@import), notice: "Import was successfully created." }
-        format.json { render :show, status: :created, location: @import }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @import.errors, status: :unprocessable_entity }
+          format.html { redirect_to import_url(@import), notice: "Import was successfully created." }
+          format.json { render :show, status: :created, location: @import }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @import.errors, status: :unprocessable_entity }
+        end
       end
+
+    else # if validate_headers == false
+      redirect_to new_import_path, notice: "File not imported. The column names on the CSV file you tried to import do not match the expected column names or are valid for a different report type."
     end
   end
 
@@ -77,14 +76,12 @@ class ImportsController < ApplicationController
       @import = Import.find(params[:id])
     end
 
-    # def check_headers
-    #   thing = CheckCsvHeadersService.new(@import.file.url, report).call
-    #   if thing
-    #     puts "THIS IS THE THING"
-    #   else
-    #     puts "THIS iS NOT THE THINGS"
-    #   end
-    # end
+    def validate_headers
+      tempfile = params["import"]["file"].tempfile
+      report = params["import"]["report"]
+
+      return CheckCsvHeadersService.new(tempfile, report).call # returns boolean value
+    end
 
     # Only allow a list of trusted parameters through.
     def import_params

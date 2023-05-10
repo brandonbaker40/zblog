@@ -3,6 +3,8 @@ class CheckCsvHeadersService
 
   require 'csv'
   require 'open-uri'
+  require 'stringio'
+  require 'tempfile'
 
   def initialize(s3_url, report)
     @report = report
@@ -10,6 +12,7 @@ class CheckCsvHeadersService
   end
 
   def call
+
     CSV.parse(URI.open(@s3_url), liberal_parsing: true, headers: true, header_converters: :symbol).each_with_index do |row, index|
       if index == 0
 
