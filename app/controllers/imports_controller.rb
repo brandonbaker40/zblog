@@ -21,18 +21,25 @@ class ImportsController < ApplicationController
 
   # POST /imports or /imports.json
   def create
-    if validate_headers == true # substitution for a callback that checks whether the headers in the file the user is trying to upload match the expected headers by the report type
+    @import = Import.new(import_params)
+    file = import_params[:file]
 
-      @import = Import.new(import_params)
-      file = import_params[:file]
-      report = import_params[:report]
-      return redirect_to imports_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
+    return redirect_to imports_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
+
+    if validate_headers == true # substitution for a callback that checks whether the headers in the file the user is trying to upload match the expected headers by the report type
 
       respond_to do |format|
         if @import.save
 
           # upload to file to S3 and import the data
-          ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
+          case @import.report.to_sym
+          when :webpt_documented_units
+            ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
+          when :ais_visit_history
+            ImportAisVisitHistoryService.new(@import.file.url).call
+          else
+            nil
+          end
 
           format.html { redirect_to import_url(@import), notice: "Import was successfully created." }
           format.json { render :show, status: :created, location: @import }
