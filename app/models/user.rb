@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  after_create do |user|
+    Profile.find_or_create_by(user: user)
+  end
+
   validates :email, presence: true
 
   has_one :profile, dependent: :destroy
@@ -21,7 +25,7 @@ class User < ApplicationRecord
       # If you are using confirmable and the provider(s) you use validate emails,
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
-      Profile.find_or_create_by(user: user)
+      # Profile.find_or_create_by(user: user)
     end
   end
 end
