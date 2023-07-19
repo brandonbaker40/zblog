@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   validates :email, presence: true
 
+  has_one :profile, dependent: :destroy
+  accepts_nested_attributes_for :profile
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -18,6 +21,7 @@ class User < ApplicationRecord
       # If you are using confirmable and the provider(s) you use validate emails,
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
+      Profile.find_or_create_by(user: user)
     end
   end
 end

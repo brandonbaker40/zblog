@@ -11,6 +11,23 @@
     </div>
   <% end %>
 
+  <%= form.fields_for :profile do |ff| %>
+  <div>
+    <%= ff.label :first_name, style: "display: block" %>
+    <%= ff.text_field :first_name %>
+  </div>
+
+  <div>
+    <%= ff.label :last_name, style: "display: block" %>
+    <%= ff.text_field :last_name %>
+  </div>
+
+  <div>
+    <%= ff.label :role, style: "display: block" %>
+    <%= ff.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true %>
+  </div>
+  <% end %>
+
   <div>
     <%= form.submit %>
   </div>
