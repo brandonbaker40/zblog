@@ -12,11 +12,6 @@
   <% end %>
 
   <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
     <%= form.label :first_name, style: "display: block" %>
     <%= form.text_field :first_name %>
   </div>
@@ -28,7 +23,7 @@
 
   <div>
     <%= form.label :role, style: "display: block" %>
-    <%= form.number_field :role %>
+    <%= form.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true %>
   </div>
 
   <div>

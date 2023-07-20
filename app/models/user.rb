@@ -1,12 +1,12 @@
 class User < ApplicationRecord
   after_create do |user|
-    Profile.find_or_create_by(user: user)
+    # Profile.find_or_create_by(user: user)
   end
 
   validates :email, presence: true
 
-  has_one :profile, dependent: :destroy
-  accepts_nested_attributes_for :profile
+  #has_one :profile, dependent: :destroy
+  #accepts_nested_attributes_for :profile
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
