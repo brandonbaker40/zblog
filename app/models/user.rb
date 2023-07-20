@@ -1,12 +1,22 @@
 class User < ApplicationRecord
   after_create do |user|
-    # Profile.find_or_create_by(user: user)
+    aad_object = MicrosoftGraphFetchUserProfileService.new(user).call
+
+    if Profile.where(email: aad_object["mail"]).exists?
+      prof = Profile.find_by(email: aad_object["mail"]) # validation on email uniqueness makes sure there is only 1 record to return
+      prof.update_columns(first_name: aad_object["givenName"], last_name: aad_object["surname"]) # overwrites the value in profile
+    else
+      # if aad user email does not have a profile yet, a profile will be created for them
+      # an admin will need to assign fields
+      prof = Profile.create(email: aad_object["mail"], first_name: aad_object["givenName"], last_name: aad_object["surname"])
+    end
+
+    UserProfile.create(user: user, profile: prof)
   end
 
   validates :email, presence: true
 
-  #has_one :profile, dependent: :destroy
-  #accepts_nested_attributes_for :profile
+  has_one :user_profile
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -27,5 +37,9 @@ class User < ApplicationRecord
       # user.skip_confirmation!
       # Profile.find_or_create_by(user: user)
     end
+  end
+
+  def establish_user_profile
+
   end
 end

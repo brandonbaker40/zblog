@@ -2,6 +2,12 @@
 
 <%= render @profile %>
 
+<br />
+Linked to Microsoft Account? <%= @profile.user_profile.nil? ? "No" : "Yes" %>
+<br />
+<br />
+
+
 <div>
   <%= link_to "Edit this profile", edit_profile_path(@profile) %> |
   <%= link_to "Back to profiles", profiles_path %>
