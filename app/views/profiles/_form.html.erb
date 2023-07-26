@@ -31,7 +31,35 @@
     <%= form.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true %>
   </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= form.fields_for :address, @address do |ff| %>
+    <div>
+      <%= ff.label :address_line_1, style: "display: block" %>
+      <%= ff.text_field :streetLineOne %>
+    </div>
+
+    <div>
+      <%= ff.label :address_line_2, style: "display: block" %>
+      <%= ff.text_field :streetLineTwo %>
+    </div>
+
+    <div>
+      <%= ff.label :city, style: "display: block" %>
+      <%= ff.text_field :city %>
+    </div>
+
+    <div>
+      <%= ff.label :state, style: "display: block" %>
+      <%= ff.text_field :state %>
+    </div>
+
+    <div>
+      <%= ff.label :zip_code, style: "display: block" %>
+      <%= ff.text_field :zip_code %>
+    </div>
+  <% end %>
+
+<div class="actions">
+  <%= form.submit %>
+</div>
+
 <% end %>
