@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :ssn, style: "display: block" %>
+    <%= form.text_field :ssn %>
+  </div>
+
+  <div>
     <%= form.label :role, style: "display: block" %>
     <%= form.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true %>
   </div>
