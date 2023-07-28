@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   after_create do |user|
+
     aad_object = MicrosoftGraphFetchUserProfileService.new(user).call
 
     if Profile.where(email: aad_object["mail"]).exists?
@@ -10,6 +11,9 @@ class User < ApplicationRecord
       # an admin will need to assign fields
       prof = Profile.create(email: aad_object["mail"], first_name: aad_object["givenName"], last_name: aad_object["surname"])
     end
+
+    # Get a list of users
+    # PaychexApiService.new(r).call
 
     UserProfile.create(user: user, profile: prof)
   end

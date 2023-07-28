@@ -3,8 +3,8 @@ class WelcomeController < ApplicationController
   require 'httparty'
 
   def index
-    
-    # This is not very serious method... just testing the API works... will move later. 
+
+    # This is not very serious method... just testing the API works... will move later.
     # r = "nothing"
     # PaychexApiService.new(r).call
   end
