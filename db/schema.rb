@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_26_204936) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_28_173724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -147,6 +147,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_204936) do
     t.index ["patient_id"], name: "index_visits_on_patient_id"
   end
 
+  create_table "workers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "worker_type"
+    t.string "payroll_workerId"
+    t.string "work_email"
+    t.string "personal_email"
+    t.string "contact_phone"
+    t.date "date_of_birth"
+    t.uuid "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_workers_on_profile_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "documented_units", "codes"
@@ -154,4 +167,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_26_204936) do
   add_foreign_key "user_profiles", "profiles"
   add_foreign_key "user_profiles", "users"
   add_foreign_key "visits", "patients"
+  add_foreign_key "workers", "profiles"
 end

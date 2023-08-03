@@ -36,6 +36,28 @@
     <%= form.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true %>
   </div>
 
+  <%= form.fields_for :worker, @worker do |ffw| %>
+    <div>
+      <%= ffw.label :worker_type, style: "display: block" %>
+      <%= ffw.text_field :worker_type, disabled: true %>
+    </div>
+
+    <div>
+      <%= ffw.label :personal_email, style: "display: block" %>
+      <%= ffw.text_field :personal_email, disabled: true %>
+    </div>
+
+    <div>
+      <%= ffw.label :phone, style: "display: block" %>
+      <%= ffw.text_field :contact_phone, disabled: true %>
+    </div>
+
+    <div>
+      <%= ffw.label :payroll_workerId, style: "display: block" %>
+      <%= ffw.text_field :payroll_workerId, disabled: true %>
+    </div>
+  <% end %>
+
   <%= form.fields_for :address, @address do |ff| %>
     <div>
       <%= ff.label :address_line_1, style: "display: block" %>

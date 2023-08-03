@@ -5,7 +5,7 @@ class WelcomeController < ApplicationController
   def index
 
     # This is not very serious method... just testing the API works... will move later.
-    # r = "nothing"
-    # PaychexApiService.new(r).call
+    #r = "nothing"
+    #PaychexApiService::BuildWorkerProfile.new(r).call
   end
 end

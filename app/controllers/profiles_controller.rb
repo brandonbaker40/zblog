@@ -9,17 +9,20 @@ class ProfilesController < ApplicationController
   # GET /profiles/1 or /profiles/1.json
   def show
     @address = @profile.address
+    @worker = @profile.worker
   end
 
   # GET /profiles/new
   def new
     @profile = Profile.new
     @address = Address.new # nested object
+    @worker = Worker.new
   end
 
   # GET /profiles/1/edit
   def edit
     @address = @profile.address
+    @worker = @profile.worker
   end
 
   # POST /profiles or /profiles.json
@@ -68,6 +71,9 @@ class ProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, :email, :role, :ssn, address_attributes: [:streetLineOne, :streetLineTwo, :city, :state, :zip_code])
+      params.require(:profile).permit(:first_name, :last_name, :email, :role, :ssn,
+        address_attributes: [:streetLineOne, :streetLineTwo, :city, :state, :zip_code],
+        worker_attributes: [:date_of_birth, :work_email, :personal_email, :contact_phone, :worker_type, :payroll_workerId]
+      )
     end
 end
