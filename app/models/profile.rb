@@ -24,10 +24,10 @@ class Profile < ApplicationRecord
 
 private
 
-def import_payroll_data_from_paychex
-  # Authenticate on Paychex API
-  token = PaychexApiService::Authenticate.new.call
-  PaychexApiService::BuildWorkerProfile.new(self, token).call
-end
+  def import_payroll_data_from_paychex
+    # Authenticate on Paychex API
+    token = PaychexApiService::Authenticate.new.call
+    PaychexApiService::BuildWorkerProfile.new(self, token).call
+  end
 
 end

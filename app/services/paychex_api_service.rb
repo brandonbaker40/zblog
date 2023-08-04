@@ -101,6 +101,8 @@ class PaychexApiService
 
         end
     end
+    handle_asynchronously :call
+    
   end
 
 end
