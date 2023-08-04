@@ -16,9 +16,6 @@ class ImportAisVisitHistoryService
         patient_hash[:first_name] = row[:firstname].strip
         patient = Patient.where(patient_hash).first_or_create.save(validate: false) # saving without a birthdate
 
-      visit
-
-
     end
   end
 end
