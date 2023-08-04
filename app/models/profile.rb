@@ -1,9 +1,9 @@
 class Profile < ApplicationRecord
   after_create :import_payroll_data_from_paychex
 
-  has_one :user_profile
+  has_one :user_profile, dependent: :destroy
 
-  has_one :worker
+  has_one :worker, dependent: :destroy
   accepts_nested_attributes_for :worker
 
   has_one :address, as: :addressable, dependent: :destroy
@@ -11,7 +11,9 @@ class Profile < ApplicationRecord
 
   enum role: [:provider, :admin, :dual]
 
-  validates_uniqueness_of :email
+  validates_uniqueness_of :email # only one profile per Azure AD UPN
+  # UPN's on Azure AD tenant with different domains (external users) are not permitted to use this application
+  validates_format_of :email, with: /\A[A-Za-z0-9._%+-]+@bakerrehabgroup\.com\z/ 
 
   validates :first_name, presence: true
   validates :last_name, presence: true

@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
   def new
     @profile = Profile.new
     @address = Address.new # nested object
-    @worker = Worker.new
+    @worker = Worker.new # nested object
   end
 
   # GET /profiles/1/edit
@@ -71,9 +71,9 @@ class ProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, :email, :role, :ssn,
-        address_attributes: [:streetLineOne, :streetLineTwo, :city, :state, :zip_code],
-        worker_attributes: [:date_of_birth, :work_email, :personal_email, :contact_phone, :worker_type, :payroll_workerId]
+      params.require(:profile).permit(:first_name, :last_name, :email, :role, 
+        address_attributes: [:id, :streetLineOne, :streetLineTwo, :city, :state, :zip_code],
+        worker_attributes: [:id, :date_of_birth, :work_email, :personal_email, :contact_phone, :worker_type, :payroll_workerId]
       )
     end
 end

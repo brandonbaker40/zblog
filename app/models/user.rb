@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   after_create do |user|
 
-    aad_object = MicrosoftGraphFetchUserProfileService.new(user).call
+    token = MicrosoftGraphService::Authenticate.new.call
+    aad_object = MicrosoftGraphService::FetchUser.new(user, token).call
 
     if Profile.where(email: aad_object["mail"]).exists?
       prof = Profile.find_by(email: aad_object["mail"]) # validation on email uniqueness makes sure there is only 1 record to return
@@ -11,9 +12,6 @@ class User < ApplicationRecord
       # an admin will need to assign fields
       prof = Profile.create(email: aad_object["mail"], first_name: aad_object["givenName"], last_name: aad_object["surname"])
     end
-
-    # Get a list of users
-    # PaychexApiService.new(r).call
 
     UserProfile.create(user: user, profile: prof)
   end
@@ -41,9 +39,5 @@ class User < ApplicationRecord
       # user.skip_confirmation!
       # Profile.find_or_create_by(user: user)
     end
-  end
-
-  def establish_user_profile
-
   end
 end
