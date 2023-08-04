@@ -26,7 +26,10 @@ private
 def import_payroll_data_from_paychex
   # TestService::BigGuy.new(self).illuminate
   # Authenticate on Paychex API
-  PaychexApiService::BuildWorkerProfile.new(self).call
+  token = PaychexApiService::Authenticate.new.call
+
+
+  PaychexApiService::BuildWorkerProfile.new(self, token).call
   # Paycheck API Service Get worker
 end
 
