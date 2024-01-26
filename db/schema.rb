@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_04_113453) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_04_193325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_113453) do
     t.bigint "visit_id", null: false
   end
 
+  create_table "credentials", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "requirement_id", null: false
+    t.uuid "profile_id", null: false
+    t.date "expiration_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_credentials_on_profile_id"
+    t.index ["requirement_id"], name: "index_credentials_on_requirement_id"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -116,6 +126,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_113453) do
     t.string "email"
   end
 
+  create_table "requirements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "profile_id", null: false
@@ -161,6 +177,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_113453) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "credentials", "profiles"
+  add_foreign_key "credentials", "requirements"
   add_foreign_key "documented_units", "codes"
   add_foreign_key "documented_units", "visits"
   add_foreign_key "user_profiles", "profiles"

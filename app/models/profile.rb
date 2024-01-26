@@ -9,6 +9,9 @@ class Profile < ApplicationRecord
   has_one :address, as: :addressable, dependent: :destroy
   accepts_nested_attributes_for :address
 
+  has_many :credentials, dependent: :destroy
+  has_many :required_credentials, -> { distinct }, through: :credentials, :source => :requirement
+
   enum role: [:provider, :admin, :dual]
 
   validates_uniqueness_of :email # only one profile per Azure AD UPN
