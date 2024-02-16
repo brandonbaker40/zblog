@@ -59,15 +59,6 @@ class VisitsController < ApplicationController
     end
   end
 
-  def import
-    file = params[:file]
-    return redirect_to visits_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
-
-    ImportWebptDocumentedUnitsReportService.new(file).call
-
-    redirect_to visits_path, notice: "Visits imported!"
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_visit

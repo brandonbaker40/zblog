@@ -107,3 +107,5 @@ group :test do
   gem "webdrivers"
   gem 'shoulda-matchers', '~> 5.0'
 end
+
+gem "redis", "~> 5.0"

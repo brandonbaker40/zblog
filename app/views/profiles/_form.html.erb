@@ -23,7 +23,11 @@
 
   <div>
     <%= form.label :email, style: "display: block" %>
-    <%= form.email_field :email %>
+    <% if @profile.email.present? %>
+      <%= form.email_field :email, disabled: true %>
+    <% else %>
+      <%= form.email_field :email %>
+    <% end %>
   </div>
 
   <div>
