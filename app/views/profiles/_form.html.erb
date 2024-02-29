@@ -11,79 +11,83 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name %>
+  <div class="p-2 space-y-1">
+    <%= form.label :first_name, class: "block" %> 
+    <%= form.text_field :first_name, class: "min-w-full sm:min-w-72" %>
   </div>
 
-  <div>
-    <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name %>
+  <div class="p-2 space-y-1">
+    <%= form.label :last_name, class: "block" %>
+    <%= form.text_field :last_name, class: "min-w-full sm:min-w-72" %>
   </div>
 
-  <div>
-    <%= form.label :email, style: "display: block" %>
+  <div class="p-2 space-y-1">
+    <%= form.label :email, class: "block" %>
     <% if @profile.email.present? %>
-      <%= form.email_field :email, disabled: true %>
+      <%= form.email_field :email, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
     <% else %>
-      <%= form.email_field :email %>
+      <%= form.email_field :email, class: "min-w-full sm:min-w-72 max-w-xl" %>
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :role, style: "display: block" %>
-    <%= form.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true %>
+  <div class="p-2 space-y-1">
+    <%= form.label :role, class: "block" %>
+    <%= form.select :role, Profile.roles.map { |key, value| [key.humanize, key] }, include_blank: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
   </div>
 
   <% if @profile.worker %>
-    <%= form.fields_for :worker, @worker do |ffw| %>
-      <div>
-        <%= ffw.label :worker_type, style: "display: block" %>
-        <%= ffw.text_field :worker_type, disabled: true %>
-      </div>
+    <div class="border border-y-2 border-paychex-blue">
+    <span class="p-2">PAYCHEX FIELDS</span>
 
-      <div>
-        <%= ffw.label :personal_email, style: "display: block" %>
-        <%= ffw.text_field :personal_email, disabled: true %>
-      </div>
+      <%= form.fields_for :worker, @worker do |ffw| %>
+        <div class="p-2 space-y-1">
+          <%= ffw.label :worker_type, class: "block" %>
+          <%= ffw.text_field :worker_type, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white" %>
+        </div>
 
-      <div>
-        <%= ffw.label :phone, style: "display: block" %>
-        <%= ffw.text_field :contact_phone, disabled: true %>
-      </div>
+        <div class="p-2 space-y-1">
+          <%= ffw.label :personal_email, class: "block" %>
+          <%= ffw.text_field :personal_email, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white" %>
+        </div>
 
-      <div>
-        <%= ffw.label :payroll_workerId, style: "display: block" %>
-        <%= ffw.text_field :payroll_workerId, disabled: true %>
-      </div>
-    <% end %>
+        <div class="p-2 space-y-1">
+          <%= ffw.label :phone, class: "block" %>
+          <%= ffw.text_field :contact_phone, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white" %>
+        </div>
+
+        <div class="p-2 space-y-1">
+          <%= ffw.label :payroll_workerId, class: "block" %>
+          <%= ffw.text_field :payroll_workerId, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white" %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 
   <% if @profile.address %>
     <%= form.fields_for :address, @address do |ff| %>
-      <div>
-        <%= ff.label :address_line_1, style: "display: block" %>
-        <%= ff.text_field :streetLineOne, disabled: true %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :address_line_1, class: "block" %>
+        <%= ff.text_field :streetLineOne, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
       </div>
 
-      <div>
-        <%= ff.label :address_line_2, style: "display: block" %>
-        <%= ff.text_field :streetLineTwo, disabled: true %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :address_line_2, class: "block" %>
+        <%= ff.text_field :streetLineTwo, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
       </div>
 
-      <div>
-        <%= ff.label :city, style: "display: block" %>
-        <%= ff.text_field :city, disabled: true %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :city, class: "block" %>
+        <%= ff.text_field :city, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
       </div>
 
-      <div>
-        <%= ff.label :state, style: "display: block" %>
-        <%= ff.text_field :state, disabled: true %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :state, class: "block" %>
+        <%= ff.text_field :state, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
       </div>
 
-      <div>
-        <%= ff.label :zip_code, style: "display: block" %>
-        <%= ff.text_field :zip_code, disabled: true %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :zip_code, class: "block" %>
+        <%= ff.text_field :zip_code, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
       </div>
     <% end %>
   <% end %>
@@ -93,3 +97,5 @@
 </div>
 
 <% end %>
+
+

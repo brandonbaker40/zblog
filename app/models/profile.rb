@@ -1,5 +1,5 @@
 class Profile < ApplicationRecord
-  after_create :import_payroll_data_from_paychex
+  after_save :import_payroll_data_from_paychex
 
   has_one :user_profile, dependent: :destroy
 

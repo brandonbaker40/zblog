@@ -332,6 +332,10 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    tailwindcss-rails (2.3.0-x86_64-darwin)
+      railties (>= 6.0.0)
+    tailwindcss-rails (2.3.0-x86_64-linux)
+      railties (>= 6.0.0)
     thor (1.2.1)
     thread_safe (0.3.6)
     tilt (2.3.0)
@@ -401,6 +405,7 @@ DEPENDENCIES
   shoulda-matchers (~> 5.0)
   sprockets-rails
   stimulus-rails
+  tailwindcss-rails (~> 2.3)
   turbo-rails
   tzinfo-data
   web-console
