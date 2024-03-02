@@ -17,6 +17,12 @@ class ProfilesController < ApplicationController
     @profile = Profile.new
     @address = Address.new # nested object
     @worker = Worker.new # nested object
+
+    @token = MicrosoftGraphService::Authenticate.new.call
+
+    puts "***********"
+    puts @token
+    puts "***********"
   end
 
   # GET /profiles/1/edit
