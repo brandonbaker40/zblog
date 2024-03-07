@@ -1,0 +1,54 @@
+<%= form_with(model: provider_organization, class: "contents") do |form| %>
+  <% if provider_organization.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(provider_organization.errors.count, "error") %> prohibited this provider_organization from being saved:</h2>
+
+      <ul>
+        <% provider_organization.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :name, class: "block" %>
+    <%= form.text_field :name, class: "min-w-full sm:min-w-72 max-w-xl" %>
+  </div>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :kind, "Type", class: "block" %>
+    <%= form.select(:kind, ProviderOrganization.kinds.map { |key, value| [key.humanize, key] }, { include_blank: true }, { class: "min-w-full sm:min-w-72 max-w-xl" }) %>
+  </div>
+
+    <%= form.fields_for :address, Address.new do |ff| %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :address_line_1, class: "block" %>
+        <%= ff.text_field :streetLineOne, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :address_line_2, class: "block" %>
+        <%= ff.text_field :streetLineTwo, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :city, class: "block" %>
+        <%= ff.text_field :city, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :state, class: "block" %>
+        <%= ff.text_field :state, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :zip_code, class: "block" %>
+        <%= ff.text_field :zip_code, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+    <% end %>    
+
+  <div class="actions p-2 space-y-1">
+    <%= form.submit class: "bg-blue-500 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+<% end %>
