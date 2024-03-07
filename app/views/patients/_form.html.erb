@@ -32,6 +32,14 @@
   </div>
 
   <div>
+    <%= form.label :provider_organizations, class: "block" %>
+    <% ProviderOrganization.all.each do |option| %>
+      <%= form.check_box :engaged_provider_organization_ids, { multiple: true }, option.id, nil %>
+      <%= option.name %><br>
+    <% end %>
+  </div>
+
+  <div>
     <%= form.label :documents, style: "display: block" %>
     <%= form.file_field :documents, multiple: true %>
   </div>

@@ -4,6 +4,9 @@ class Patient < ApplicationRecord
   has_many_attached :documents
   has_many :visits
 
+  has_many :patient_entities, dependent: :destroy, inverse_of: :patient
+  has_many :engaged_provider_organizations, -> { distinct }, through: :patient_entities, :source => :provider_organization
+
   enum sex: [:male, :female]
 
   validates_uniqueness_of :last_name, :scope => [:first_name] # add Date of Birth when the field is added in a migration
