@@ -65,6 +65,6 @@ class ProviderOrganizationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def provider_organization_params
-      params.require(:provider_organization).permit(:name, :kind, address_attributes: [:id, :streetLineOne, :streetLineTwo, :city, :state, :zip_code], censused_patient_ids: [])
+      params.require(:provider_organization).permit(:name, :kind, address_attributes: [:id, :streetLineOne, :streetLineTwo, :city, :state, :zip_code], censused_patient_ids: [], rostered_provider_ids: [])
     end
 end

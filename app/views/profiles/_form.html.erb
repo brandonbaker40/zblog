@@ -35,6 +35,15 @@
     <%= form.select(:role, Profile.roles.map { |key, value| [key.humanize, key] }, { include_blank: true }, { class: "min-w-full md:min-w-96 border border-black" }) %>
   </div>
 
+  <div class="p-2 space-y-1">
+    <%= form.label :provider_organizations, class: "block" %>
+    <% ProviderOrganization.all.each do |option| %>
+      <%= form.hidden_field :assigned_provider_organization_ids, { multiple: true, value: '' } %>
+      <%= form.check_box :assigned_provider_organization_ids, { multiple: true }, option.id, nil %>
+      <%= option.name %><br>
+    <% end %>
+  </div>
+
   <% if @profile.worker %>
     <div class="border border-y-2 border-paychex-blue">
     <span class="p-2">PAYCHEX FIELDS</span>

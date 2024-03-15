@@ -4,6 +4,9 @@ class ProviderOrganization < ApplicationRecord
     has_many :patient_entities, dependent: :destroy, inverse_of: :provider_organization
     has_many :censused_patients, -> { distinct }, through: :patient_entities, :source => :patient
 
+    has_many :provider_entities, dependent: :destroy, inverse_of: :provider_organization
+    has_many :rostered_providers, -> { distinct }, through: :provider_entities, :source => :profile
+
     has_one :address, as: :addressable, dependent: :destroy
     accepts_nested_attributes_for :address
 end

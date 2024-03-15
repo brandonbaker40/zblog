@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_07_041313) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_07_045101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -135,6 +135,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_07_041313) do
     t.string "email"
   end
 
+  create_table "provider_entities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "profile_id", null: false
+    t.uuid "provider_organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_provider_entities_on_profile_id"
+    t.index ["provider_organization_id"], name: "index_provider_entities_on_provider_organization_id"
+  end
+
   create_table "provider_organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.integer "kind"
@@ -199,6 +208,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_07_041313) do
   add_foreign_key "documented_units", "visits"
   add_foreign_key "patient_entities", "patients"
   add_foreign_key "patient_entities", "provider_organizations"
+  add_foreign_key "provider_entities", "profiles"
+  add_foreign_key "provider_entities", "provider_organizations"
   add_foreign_key "user_profiles", "profiles"
   add_foreign_key "user_profiles", "users"
   add_foreign_key "visits", "patients"

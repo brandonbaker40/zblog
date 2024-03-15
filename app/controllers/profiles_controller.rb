@@ -19,10 +19,6 @@ class ProfilesController < ApplicationController
     @worker = Worker.new # nested object
 
     @token = MicrosoftGraphService::Authenticate.new.call
-
-    puts "***********"
-    puts @token
-    puts "***********"
   end
 
   # GET /profiles/1/edit
@@ -77,7 +73,7 @@ class ProfilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, :email, :role, 
+      params.require(:profile).permit(:first_name, :last_name, :email, :role, assigned_provider_organization_ids: [],
         address_attributes: [:id, :streetLineOne, :streetLineTwo, :city, :state, :zip_code],
         worker_attributes: [:id, :date_of_birth, :work_email, :personal_email, :contact_phone, :worker_type, :payroll_workerId]
       )

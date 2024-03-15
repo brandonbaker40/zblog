@@ -12,6 +12,9 @@ class Profile < ApplicationRecord
   has_many :credentials, dependent: :destroy
   has_many :required_credentials, -> { distinct }, through: :credentials, :source => :requirement
 
+  has_many :provider_entities, dependent: :destroy, inverse_of: :profile
+  has_many :assigned_provider_organizations, -> { distinct }, through: :provider_entities, :source => :provider_organization
+
   enum role: [:provider, :admin, :dual]
 
   validates_uniqueness_of :email # only one profile per Azure AD UPN

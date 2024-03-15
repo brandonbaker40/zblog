@@ -34,6 +34,7 @@
   <div>
     <%= form.label :provider_organizations, class: "block" %>
     <% ProviderOrganization.all.each do |option| %>
+      <%= form.hidden_field :engaged_provider_organization_ids, { multiple: true, value: '' } %>
       <%= form.check_box :engaged_provider_organization_ids, { multiple: true }, option.id, nil %>
       <%= option.name %><br>
     <% end %>
