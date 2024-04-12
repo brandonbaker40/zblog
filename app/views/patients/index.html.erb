@@ -1,8 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Patients</h1>
-
-<%= link_to "New patient", new_patient_path %>
+<div class="flex justify-between items-center">
+  <h1 class="font-bold text-4xl">Patients</h1>
+  <%= link_to "+ Add patient", new_patient_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+</div>
 
 <div>
   <br />
@@ -11,20 +12,55 @@
   <% end %>
 </div>
 
+<%= raw pagy_nav(@pagy) %>
 
 <%= turbo_frame_tag "table", target: '_top' do %>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <%# render @patients %>
-        <%= render partial: "patients/name_only", collection: @patients, as: :patient %>
-      </tbody>
-    </table>
+  <div class="relative overflow-x-auto">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-6 py-3">
+                      Name
+                  </th>
+                  <th scope="col" class="hidden px-6 py-3 sm:table-cell">
+                      Date of Birth
+                  </th>
+                  <th scope="col" class="hidden px-6 py-3 sm:table-cell">
+                      Sex
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Show
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Edit
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <% @patients.each do |p| %>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <%= p.name %>
+                      <dl class="sm:hidden">
+                        <dd><%= p.birthdate.strftime('%m/%d/%Y') %></dd>
+                        <dd><%= p.sex.first.capitalize %></dd>
+                      </dl>
+                    </td>
+                    <td class="hidden px-6 py-4 sm:table-cell">
+                        <%= p.birthdate.strftime('%m/%d/%Y') %>
+                    </td>
+                    <td class="hidden px-6 py-4 sm:table-cell">
+                        <%= p.sex.first.capitalize %>
+                    </td>
+                    <td class="px-6 py-4">
+                        <%= link_to "Show", p %>
+                    </td>
+                    <td class="px-6 py-4">
+                      <%= link_to "Edit", edit_patient_path(p) %>
+                    </td>
+                </tr>
+              <% end %>
+          </tbody>
+      </table>
   </div>
-  <%= raw pagy_nav(@pagy) %>
 <% end %>

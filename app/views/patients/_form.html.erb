@@ -1,6 +1,6 @@
 <%= form_with(model: patient) do |form| %>
   <% if patient.errors.any? %>
-    <div style="color: red">
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
 
       <ul>
@@ -11,27 +11,27 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="p-2 space-y-1">
     <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name %>
+    <%= form.text_field :first_name, class: "min-w-full sm:min-w-72 max-w-xl" %>
   </div>
 
-  <div>
+  <div class="p-2 space-y-1">
     <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name %>
+    <%= form.text_field :last_name, class: "min-w-full sm:min-w-72 max-w-xl" %>
   </div>
 
-  <div>
+  <div class="p-2 space-y-1">
     <%= form.label :sex, style: "display: block" %>
-    <%= form.select :sex, Patient.sexes.map { |key, value| [key.humanize, key] }, include_blank: true %>
+    <%= form.select(:sex, Patient.sexes.map { |key, value| [key.humanize, key] }, { include_blank: true }, { class: "min-w-full sm:min-w-72 max-w-xl" }) %>
   </div>
 
-  <div>
+  <div class="p-2 space-y-1">
     <%= form.label :date_of_birth, style: "display: block" %>
-    <%= form.date_field :birthdate %>
+    <%= form.date_field :birthdate, class: "min-w-full sm:min-w-72 max-w-xl" %>
   </div>
 
-  <div>
+  <div class="p-2 space-y-1">
     <%= form.label :provider_organizations, class: "block" %>
     <% ProviderOrganization.all.each do |option| %>
       <%= form.hidden_field :engaged_provider_organization_ids, { multiple: true, value: '' } %>
@@ -40,12 +40,12 @@
     <% end %>
   </div>
 
-  <div>
+  <div class="p-2 space-y-1">
     <%= form.label :documents, style: "display: block" %>
     <%= form.file_field :documents, multiple: true %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="p-2 space-y-1">
+    <%= form.submit class: "bg-blue-500 text-white font-bold py-2 px-4 rounded" %>
   </div>
 <% end %>

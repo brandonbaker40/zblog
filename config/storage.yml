@@ -28,6 +28,12 @@ amazon:
 #   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
 #   container: your_container_name-<%= Rails.env %>
 
+azure:
+  service: AzureStorage
+  storage_account_name: "zblogstorage"
+  storage_access_key: <%= ENV['AZURE_ACCESS_KEY'] %>
+  container: <%= ENV['AZURE_CONTAINER'] %>
+
 # mirror:
 #   service: Mirror
 #   primary: local

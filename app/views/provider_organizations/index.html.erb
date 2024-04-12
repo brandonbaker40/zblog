@@ -7,13 +7,7 @@
     <h1 class="font-bold text-4xl">Provider organizations</h1>
     <%= link_to "New provider organization", new_provider_organization_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
-
-  <div id="provider_organizations" class="min-w-full">
-    <%= render @provider_organizations %>
-  </div>
 </div>
-
-
 
 <div class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -22,7 +16,7 @@
                 <th scope="col" class="px-6 py-3">
                     Name
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="hidden px-6 py-3 sm:table-cell">
                     Type
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -36,10 +30,13 @@
         <tbody>
             <% @provider_organizations.each do |pe| %>
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <%= pe.name %>
-                  </th>
-                  <td class="px-6 py-4">
+                    <dl class="sm:hidden">
+                      <dd><%= pe.kind.humanize %></dd>
+                    </dl>
+                  </td>
+                  <td class="hidden px-6 py-4 sm:table-cell">
                       <%= pe.kind.humanize %>
                   </td>
                   <td class="px-6 py-4">

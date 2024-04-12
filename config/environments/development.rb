@@ -73,5 +73,5 @@ Rails.application.configure do
 
   
   # File Storage. Should change to local storage evntually
-  config.active_storage.service = :amazon
+  config.active_storage.service = :azure
 end

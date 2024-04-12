@@ -9,6 +9,15 @@
 
 require 'faker'
 
+5.times do |i|
+  kind = nil 
+  rand(1..2) == 1 ? kind = :home_health_agency : kind = :surgery_center
+  ProviderOrganization.create(
+    name: Faker::Company.name + " " + kind.to_s.humanize,
+    kind: kind
+  )
+end
+
 500.times do |i|
   sex = nil
   rand(1..2) == 1 ? sex = :male : sex = :female

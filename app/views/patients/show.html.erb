@@ -1,11 +1,13 @@
 <p style="color: green"><%= notice %></p>
 
-<%# render @patient %>
-
 <div>
   <h3><strong>Name:</strong> <%= @patient.name %></h3>
   <p><strong>Date of Birth:</strong> <%= @patient.birthdate %></p>
   <p><strong>Sex: <%= @patient.sex ? @patient.sex.first.capitalize : nil %></strong></p>
+
+  <% @patient.documents.each do |d| %>
+    <%= link_to d.filename, d.url, target: :_blank %>
+  <% end %>
 </div>
 
 <div>
