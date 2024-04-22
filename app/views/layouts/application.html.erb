@@ -28,8 +28,7 @@
 
       <% else %>
 
-        <%# https://github.com/heartcombo/devise/issues/5236 %>
-        <%= button_to "Log in", user_azure_activedirectory_v2_omniauth_authorize_path, method: :post, "data-turbo": false, class: "bg-blue-500 rounded text-white p-2" %>
+        <%= render "layouts/login" %>
 
       <% end %> 
     </div>
