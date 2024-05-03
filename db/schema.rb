@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_07_045101) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_03_173429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -184,7 +184,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_07_045101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "webptvisitid"
+    t.uuid "provider_organization_id", null: false
     t.index ["patient_id"], name: "index_visits_on_patient_id"
+    t.index ["provider_organization_id"], name: "index_visits_on_provider_organization_id"
   end
 
   create_table "workers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -213,5 +215,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_07_045101) do
   add_foreign_key "user_profiles", "profiles"
   add_foreign_key "user_profiles", "users"
   add_foreign_key "visits", "patients"
+  add_foreign_key "visits", "provider_organizations"
   add_foreign_key "workers", "profiles"
 end

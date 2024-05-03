@@ -17,8 +17,8 @@
   </div>
 
   <div>
-    <%= form.label :patient_id, style: "display: block" %>
-    <%= form.select(:patient_id, Patient.all.order('last_name ASC').collect { |patient| [ patient.name, patient.id ] }, { include_blank: true }, { "class": "chosen-select", "data-placeholder": 'Select Patient' }) %>
+    <%= form.label :provider_organization_id, style: "display: block" %>
+    <%= form.select(:provider_organization_id, ProviderOrganization.all.collect { |po| [ po.name, po.id ] }, { include_blank: true }, { "data-placeholder": 'Select Provider Organization' }) %>
   </div>
 
   <div>
