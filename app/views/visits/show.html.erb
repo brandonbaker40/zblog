@@ -3,7 +3,16 @@
 <p>Patient ID: <%= @visit.patient_id %> </p>
 <p>Patient: <%= patient_full_name(@visit.patient) %> </p>
 <p> DOS: <%= @visit.date_of_service %> </p>
-<p> Codes: <%= @visit.applied_codes.pluck(:label, :unit_count) %> </p>
+<table>
+  <% @visit.applied_codes.pluck(:label, :unit_count).each do |ap| %>
+    <% if ap.last == 1 %>
+      <tr><%= ap.first %> ( <%= ap.last %>  unit )</tr>
+      <% else %>
+      <tr><%= ap.first %> ( <%= ap.last %>  units )</tr>
+    <% end %>
+    <br>
+  <% end %>
+</table>
 
 
 <div>

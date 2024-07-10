@@ -59,15 +59,6 @@ class VisitsController < ApplicationController
     end
   end
 
-  def import
-    file = params[:file]
-    return redirect_to visits_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
-
-    ImportWebptDocumentedUnitsReportService.new(file).call
-
-    redirect_to visits_path, notice: "Visits imported!"
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_visit
@@ -76,6 +67,6 @@ class VisitsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def visit_params
-      params.require(:visit).permit(:date_of_service, :patient_id)
+      params.require(:visit).permit(:date_of_service, :patient_id, :provider_organization_id)
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_28_134608) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_03_173429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_134608) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "streetLineOne"
+    t.string "streetLineTwo"
+    t.string "city"
+    t.string "state"
+    t.string "zip_code"
+    t.string "addressable_type", null: false
+    t.uuid "addressable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
+  end
+
   create_table "codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "label"
     t.datetime "created_at", null: false
@@ -51,6 +64,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_134608) do
   create_table "codes_visits", id: false, force: :cascade do |t|
     t.bigint "code_id", null: false
     t.bigint "visit_id", null: false
+  end
+
+  create_table "credentials", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "requirement_id", null: false
+    t.uuid "profile_id", null: false
+    t.date "expiration_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_credentials_on_profile_id"
+    t.index ["requirement_id"], name: "index_credentials_on_requirement_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -81,6 +104,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_134608) do
   create_table "imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "report"
+  end
+
+  create_table "patient_entities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "patient_id", null: false
+    t.uuid "provider_organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_patient_entities_on_patient_id"
+    t.index ["provider_organization_id"], name: "index_patient_entities_on_provider_organization_id"
   end
 
   create_table "patients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -91,6 +124,46 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_134608) do
     t.integer "sex"
     t.date "birthdate"
     t.string "name"
+  end
+
+  create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+  end
+
+  create_table "provider_entities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "profile_id", null: false
+    t.uuid "provider_organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_provider_entities_on_profile_id"
+    t.index ["provider_organization_id"], name: "index_provider_entities_on_provider_organization_id"
+  end
+
+  create_table "provider_organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.integer "kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "requirements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_user_profiles_on_profile_id"
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -111,12 +184,37 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_134608) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "webptvisitid"
+    t.uuid "provider_organization_id", null: false
     t.index ["patient_id"], name: "index_visits_on_patient_id"
+    t.index ["provider_organization_id"], name: "index_visits_on_provider_organization_id"
+  end
+
+  create_table "workers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "worker_type"
+    t.string "payroll_workerId"
+    t.string "work_email"
+    t.string "personal_email"
+    t.string "contact_phone"
+    t.date "date_of_birth"
+    t.uuid "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_workers_on_profile_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "credentials", "profiles"
+  add_foreign_key "credentials", "requirements"
   add_foreign_key "documented_units", "codes"
   add_foreign_key "documented_units", "visits"
+  add_foreign_key "patient_entities", "patients"
+  add_foreign_key "patient_entities", "provider_organizations"
+  add_foreign_key "provider_entities", "profiles"
+  add_foreign_key "provider_entities", "provider_organizations"
+  add_foreign_key "user_profiles", "profiles"
+  add_foreign_key "user_profiles", "users"
   add_foreign_key "visits", "patients"
+  add_foreign_key "visits", "provider_organizations"
+  add_foreign_key "workers", "profiles"
 end

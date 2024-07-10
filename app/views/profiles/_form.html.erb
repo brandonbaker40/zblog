@@ -1,0 +1,110 @@
+<%= form_with(model: profile) do |form| %>
+  <% if profile.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+
+      <ul>
+        <% profile.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :first_name, class: "block" %> 
+    <%= form.text_field :first_name, class: "min-w-full md:min-w-96" %>
+  </div>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :last_name, class: "block" %>
+    <%= form.text_field :last_name, class: "min-w-full md:min-w-96" %>
+  </div>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :email, class: "block" %>
+    <% if @profile.email.present? %>
+      <%= form.email_field :email, disabled: true, class: "min-w-full md:min-w-96" %>
+    <% else %>
+      <%= form.email_field :email, class: "min-w-full md:min-w-96" %>
+    <% end %>
+  </div>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :role, class: "block" %>
+    <%= form.select(:role, Profile.roles.map { |key, value| [key.humanize, key] }, { include_blank: true }, { class: "min-w-full md:min-w-96 border border-black" }) %>
+  </div>
+
+  <div class="p-2 space-y-1">
+    <%= form.label :provider_organizations, class: "block" %>
+    <% ProviderOrganization.all.each do |option| %>
+      <%= form.hidden_field :assigned_provider_organization_ids, { multiple: true, value: '' } %>
+      <%= form.check_box :assigned_provider_organization_ids, { multiple: true }, option.id, nil %>
+      <%= option.name %><br>
+    <% end %>
+  </div>
+
+  <% if @profile.worker %>
+    <div class="border border-y-2 border-paychex-blue">
+    <span class="p-2">PAYCHEX FIELDS</span>
+
+      <%= form.fields_for :worker, @worker do |ffw| %>
+        <div class="p-2 space-y-1">
+          <%= ffw.label :worker_type, class: "block" %>
+          <%= ffw.text_field :worker_type, disabled: true, class: "min-w-full md:min-w-96 border-white -ml-2" %>
+        </div>
+
+        <div class="p-2 space-y-1">
+          <%= ffw.label :personal_email, class: "block" %>
+          <%= ffw.text_field :personal_email, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white -ml-2" %>
+        </div>
+
+        <div class="p-2 space-y-1">
+          <%= ffw.label :phone, class: "block" %>
+          <%= ffw.text_field :contact_phone, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white -ml-2" %>
+        </div>
+
+        <div class="p-2 space-y-1">
+          <%= ffw.label :payroll_workerId, class: "block" %>
+          <%= ffw.text_field :payroll_workerId, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl border-white -ml-2" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @profile.address %>
+    <%= form.fields_for :address, @address do |ff| %>
+      <div class="p-2 space-y-1">
+        <%= ff.label :address_line_1, class: "block" %>
+        <%= ff.text_field :streetLineOne, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :address_line_2, class: "block" %>
+        <%= ff.text_field :streetLineTwo, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :city, class: "block" %>
+        <%= ff.text_field :city, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :state, class: "block" %>
+        <%= ff.text_field :state, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+
+      <div class="p-2 space-y-1">
+        <%= ff.label :zip_code, class: "block" %>
+        <%= ff.text_field :zip_code, disabled: true, class: "min-w-full sm:min-w-72 max-w-xl" %>
+      </div>
+    <% end %>
+  <% end %>
+
+<div class="actions p-2 space-y-1">
+  <%= form.submit class: "bg-blue-500 text-white font-bold py-2 px-4 rounded" %>
+</div>
+
+<% end %>
+
+

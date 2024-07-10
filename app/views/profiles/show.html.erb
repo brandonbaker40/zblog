@@ -1,0 +1,18 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @profile %>
+
+<br />
+Linked to Microsoft Account? <%= @profile.user_profile.nil? ? "No" : "Yes" %>
+<br />
+<br />
+<% @profile.credentials.each do |c| %>
+  <%= c.requirement.name %> due <%= c.expiration_date %>
+<% end %>
+
+<div>
+  <%= link_to "Edit this profile", edit_profile_path(@profile) %> |
+  <%= link_to "Back to profiles", profiles_path %>
+
+  <%= button_to "Destroy this profile", @profile, method: :delete %>
+</div>

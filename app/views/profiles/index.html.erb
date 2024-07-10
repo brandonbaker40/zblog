@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Profiles</h1>
+
+<div id="profiles">
+  <% @profiles.each do |profile| %>
+  <p>
+    <%= link_to "#{profile.first_name} #{profile.last_name}", profile %>
+  </p>
+  <% end %>
+</div>
+
+<%= link_to "New profile", new_profile_path %>

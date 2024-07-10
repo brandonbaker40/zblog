@@ -9,6 +9,7 @@ class ImportWebptDocumentedUnitsReportService
    end
 
    def call
+     puts "********* CRAZY"
     # CSV.parse is used in favor of CSV.open because CSV.parse can manipulate StringIO content type
     # URI.open is used since that is what is recommended as of ruby 3.0... and nothing else I tried worked
     # liberal_parsing is set to true to ignore non UTF-8 characters like BOM

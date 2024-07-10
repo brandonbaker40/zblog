@@ -6,6 +6,7 @@ class PatientsController < ApplicationController
   # GET /patients or /patients.json
   def index
     # @patients = Patient.all
+    
     @q = Patient.ransack(params[:q])
     @patients = @q.result(distinct: true)
     # scope =
@@ -14,6 +15,8 @@ class PatientsController < ApplicationController
 
   # GET /patients/1 or /patients/1.json
   def show
+    client = Azure::Storage::Blob::BlobService.create(storage_account_name: "zblogstorage", storage_access_key: ENV['AZURE_ACCESS_KEY'])
+
   end
 
   # GET /patients/new
@@ -71,6 +74,6 @@ class PatientsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def patient_params
-      params.require(:patient).permit(:first_name, :last_name, :sex, :birthdate, documents: [])
+      params.require(:patient).permit(:first_name, :last_name, :sex, :birthdate, documents: [], engaged_provider_organization_ids: [])
     end
 end

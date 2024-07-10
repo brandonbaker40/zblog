@@ -2,10 +2,18 @@
 
 <h1>Visits</h1>
 
-<%= form_with url: import_visits_path, method: :post do |form| %>
-  <%= form.file_field :file, accept: ".csv" %>
-  <%= form.button "Import" %>
+<%= link_to "New visit", new_visit_path %><br>
+
+========  
+
+<%# This may be useful later? %>
+<% if false %>
+  <%= form_with url: import_visits_path, method: :post do |form| %>
+    <%= form.file_field :file, accept: ".csv" %>
+    <%= form.button "Import" %>
+  <% end %>
 <% end %>
+
 
 <div id="visits">
   <% @visits.each do |visit| %>
@@ -15,4 +23,6 @@
   <% end %>
 </div>
 
-<%= link_to "New visit", new_visit_path %>
+
+
+

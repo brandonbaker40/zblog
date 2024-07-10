@@ -12,6 +12,11 @@
   <% end %>
 
   <div>
+    <%= form.label :report, style: "display: block" %>
+    <%= form.select :report, Import.reports.map { |key, value| [key.titleize, key] }, include_blank: true %>
+  </div>
+
+  <div>
     <%= form.label :file, style: "display: block" %>
     <%= form.file_field :file, accept: ".csv" %>
   </div>

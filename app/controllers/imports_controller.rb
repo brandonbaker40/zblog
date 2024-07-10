@@ -23,19 +23,34 @@ class ImportsController < ApplicationController
   def create
     @import = Import.new(import_params)
     file = import_params[:file]
+
     return redirect_to imports_path, notice: "Only CSV please!" unless file.content_type == "text/csv"
 
-    respond_to do |format|
-      if @import.save
+    if validate_headers == true # substitution for a callback that checks whether the headers in the file the user is trying to upload match the expected headers by the report type
 
-        ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
+      respond_to do |format|
+        if @import.save
 
-        format.html { redirect_to import_url(@import), notice: "Import was successfully created." }
-        format.json { render :show, status: :created, location: @import }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @import.errors, status: :unprocessable_entity }
+          # upload to file to S3 and import the data
+          case @import.report.to_sym
+          when :webpt_documented_units
+            ImportWebptDocumentedUnitsReportService.new(@import.file.url).call
+          when :ais_visit_history
+            ImportAisVisitHistoryService.new(@import.file.url).call
+          else
+            nil
+          end
+
+          format.html { redirect_to import_url(@import), notice: "Import was successfully created." }
+          format.json { render :show, status: :created, location: @import }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @import.errors, status: :unprocessable_entity }
+        end
       end
+
+    else # if validate_headers == false
+      redirect_to new_import_path, notice: "File not imported. The column names on the CSV file you tried to import do not match the expected column names or are valid for a different report type."
     end
   end
 
@@ -68,8 +83,15 @@ class ImportsController < ApplicationController
       @import = Import.find(params[:id])
     end
 
+    def validate_headers
+      tempfile = params["import"]["file"].tempfile
+      report = params["import"]["report"]
+
+      return CheckCsvHeadersService.new(tempfile, report).call # returns boolean value
+    end
+
     # Only allow a list of trusted parameters through.
     def import_params
-      params.require(:import).permit(:file)
+      params.require(:import).permit(:file, :report)
     end
 end

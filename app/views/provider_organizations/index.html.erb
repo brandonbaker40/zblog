@@ -1,0 +1,53 @@
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Provider organizations</h1>
+    <%= link_to "New provider organization", new_provider_organization_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+</div>
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="hidden px-6 py-3 sm:table-cell">
+                    Type
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Show
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Edit
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @provider_organizations.each do |pe| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <%= pe.name %>
+                    <dl class="sm:hidden">
+                      <dd><%= pe.kind.humanize %></dd>
+                    </dl>
+                  </td>
+                  <td class="hidden px-6 py-4 sm:table-cell">
+                      <%= pe.kind.humanize %>
+                  </td>
+                  <td class="px-6 py-4">
+                      <%= link_to "Show", pe %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= link_to "Edit", edit_provider_organization_path(pe) %>
+                  </td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+

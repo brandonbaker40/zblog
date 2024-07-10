@@ -9,7 +9,16 @@
 
 require 'faker'
 
-500.times do |i|
+5.times do |i|
+  kind = nil 
+  rand(1..2) == 1 ? kind = :home_health_agency : kind = :surgery_center
+  ProviderOrganization.create(
+    name: Faker::Company.name + " " + kind.to_s.humanize,
+    kind: kind
+  )
+end
+
+50.times do |i|
   sex = nil
   rand(1..2) == 1 ? sex = :male : sex = :female
   Patient.create(
@@ -18,4 +27,10 @@ require 'faker'
     sex: sex,
     birthdate: Faker::Date.between(from: '1923-01-01', to: '1975-12-31')
   )
+end
+
+120.times do |i|
+  p = Patient.find(Patient.pluck(:id).sample)
+  po = ProviderOrganization.find(ProviderOrganization.pluck(:id).sample)
+  pa = PatientEntity.create(patient: p, provider_organization:po)
 end
